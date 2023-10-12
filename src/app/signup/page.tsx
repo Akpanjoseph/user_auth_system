@@ -1,8 +1,20 @@
 "use client"
 
 
-export default function page() {
+export default function signup() {
   return (
-    <div>page</div>
+    <div className="w-full justify-center items-center">
+      <h1>Signup</h1>
+
+      <form >
+        <div>
+          <label htmlFor=""></label>
+          <div className="">
+            <input type="text" placeholder="Email "  />
+          </div>
+        </div>
+
+      </form>
+    </div>
   )
 }
