@@ -4,16 +4,28 @@ import { useState } from 'react'
 import {AiOutlineEyeInvisible,AiOutlineEye} from 'react-icons/ai'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {FormEvent} from '@/app/types/types'
 import { useRouter } from "next/navigation";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from './redux/store';
+import { signUp } from './redux/Slice/authSlice';
+
 
 export default function Home() {
+  const [userData, setData] = useState<data>({
+    username:'',
+    email:'',
+    password: ''
+  })
 
   const [show,setShow] = useState(true)
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>()
+
   function submit(e:FormEvent){
     e.preventDefault()
-
+    console.log(userData);
+    dispatch(signUp(userData))
+    
     toast.success('success')
     router.push('./routes/home')
   }
@@ -24,22 +36,23 @@ export default function Home() {
 
       <form className="shadow-lg border rounded-md  w-[35%] py-10 px-8" onSubmit={submit} >
 
+        
         <div>
           <div className="border-b-2 border-gray-500 px-2">
-          <input type="text" placeholder="Username " className="w-full outline-none py-4"  />
+          <input type="text" placeholder="Username " className="w-full outline-none py-4" value={userData.username} onChange={(e)=>setData({...userData,username:e.target.value})}/>
           </div>
         </div>
 
 
         <div className="my-2">
           <div className="border-b-2 border-gray-500 px-2">
-          <input type="email" placeholder="Email " className="w-full outline-none py-4"  />
+          <input type="email" placeholder="Email " className="w-full outline-none py-4" value={userData.email} onChange={(e)=>setData({...userData,email:e.target.value})} />
           </div>
         </div>
 
         <div className="my-2  ">
           <div className="border-b-2 border-gray-500 px-2 flex items-center">
-          <input type={show ? 'password' : 'text'} placeholder="Password " className="w-full outline-none py-4"  />
+          <input type={show ? 'password' : 'text'} placeholder="Password " className="w-full outline-none py-4" value={userData.password} onChange={(e)=>setData({...userData,password:e.target.value})}  />
             {
                 show ? <AiOutlineEye onClick={()=> setShow(!show)} /> : <AiOutlineEyeInvisible onClick={()=> setShow(!show)} />
             }
